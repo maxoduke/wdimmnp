@@ -49,7 +49,7 @@ public class LinkedCompassItem extends Item
         if (world.isClient)
             return;
 
-        NbtCompound linkedCompassNbtData = stack.getTag();
+        NbtCompound linkedCompassNbtData = stack.getNbt();
         if (linkedCompassNbtData == null || !linkedCompassNbtData.contains(POI_DIMENSION) || !linkedCompassNbtData.contains(POI_POS_IN_OVERWORLD) || !linkedCompassNbtData.contains(POI_POS_IN_NETHER))
             return;
 
@@ -134,11 +134,11 @@ public class LinkedCompassItem extends Item
                 if (itemStack.getItem() instanceof CompassItem && itemStack.getCount() == 1)
                 {
                     EnvType currentEnv = FabricLauncherBase.getLauncher().getEnvironmentType();
-                    slot = !player.isCreative() && currentEnv == EnvType.CLIENT ? player.inventory.getSlotWithStack(itemStack) : -1;
+                    slot = !player.isCreative() && currentEnv == EnvType.CLIENT ? player.getInventory().getSlotWithStack(itemStack) : -1;
                 }
             }
 
-            NbtCompound linkedCompassNbtData = linkedCompassItemStack.getOrCreateTag();
+            NbtCompound linkedCompassNbtData = linkedCompassItemStack.getOrCreateNbt();
             linkedCompassNbtData.putString(POI_DIMENSION, playerDimension);
             linkedCompassNbtData.put(POI_POS_IN_OVERWORLD, NbtHelper.fromBlockPos(poiPosInOverworld));
             linkedCompassNbtData.put(POI_POS_IN_NETHER, NbtHelper.fromBlockPos(poiPosInNether));
@@ -148,7 +148,7 @@ public class LinkedCompassItem extends Item
                 if (!player.isCreative())
                     itemStack.decrement(1);
 
-                if (!player.inventory.insertStack(slot, linkedCompassItemStack))
+                if (!player.getInventory().insertStack(slot, linkedCompassItemStack))
                     player.dropItem(linkedCompassItemStack, false);
             }
 
@@ -166,7 +166,7 @@ public class LinkedCompassItem extends Item
     public static BlockPos getLinkedBlockPos(ItemStack itemStack, ClientWorld clientWorld)
     {
         String playerDimension = clientWorld.getRegistryKey().getValue().toString();
-        NbtCompound linkedCompassNbtData = itemStack.getTag();
+        NbtCompound linkedCompassNbtData = itemStack.getNbt();
         BlockPos poiPosInOverWorld, poiPosInNether, posToPoint = null;
 
         if (linkedCompassNbtData == null)

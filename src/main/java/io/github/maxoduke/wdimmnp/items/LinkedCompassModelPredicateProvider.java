@@ -2,7 +2,7 @@ package io.github.maxoduke.wdimmnp.items;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.item.ModelPredicateProvider;
+import net.minecraft.client.item.UnclampedModelPredicateProvider;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
@@ -16,13 +16,13 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 
-public class LinkedCompassModelPredicateProvider implements ModelPredicateProvider
+public class LinkedCompassModelPredicateProvider implements UnclampedModelPredicateProvider
 {
     private final AngleInterpolator value = new AngleInterpolator();
     private final AngleInterpolator speed = new AngleInterpolator();
 
     @Override
-    public float call(ItemStack itemStack, @Nullable ClientWorld clientWorld, @Nullable LivingEntity livingEntity)
+    public float unclampedCall(ItemStack itemStack, @Nullable ClientWorld clientWorld, @Nullable LivingEntity livingEntity, int i)
     {
         Entity entity = livingEntity != null ? livingEntity : itemStack.getHolder();
         if (entity == null)
@@ -45,11 +45,11 @@ public class LinkedCompassModelPredicateProvider implements ModelPredicateProvid
         double value = 0.0;
 
         if (isPlayer)
-            value = livingEntity.yaw;
+            value = livingEntity.getYaw();
         else if (entity instanceof ItemFrameEntity)
             value = this.getItemFrameAngleOffset((ItemFrameEntity) entity);
         else if (entity instanceof ItemEntity)
-            value = 180.0f - ((ItemEntity) entity).method_27314(0.5f) / ((float) Math.PI * 2) * 360.0f;
+            value = 180.0f - ((ItemEntity) entity).getRotation(0.5f) / ((float) Math.PI * 2) * 360.0f;
         else if (livingEntity != null)
             value = livingEntity.bodyYaw;
 
