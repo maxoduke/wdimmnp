@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "id": "wdimmnp",
+  "version": "${version}",
+
+  "name": "Where do I make my Nether Portal?",
+  "description": "An immersive way of finding the locations to make Nether Portals for fast travel without co-ordinates",
+  "authors": [
+    "Maxoduke"
+  ],
+  "contact": {
+    "homepage": "https://github.com/maxoduke/wdimmnp",
+    "sources": "https://github.com/maxoduke/wdimmnp"
+  },
+
+  "license": "MIT",
+  "icon": "assets/wdimmnp/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "io.github.maxoduke.wdimmnp.Mod"
+    ],
+    "client": [
+      "io.github.maxoduke.wdimmnp.ClientMod"
+    ]
+  },
+  "mixins": [
+    "wdimmnp.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.16.5",
+    "java": ">=8"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
